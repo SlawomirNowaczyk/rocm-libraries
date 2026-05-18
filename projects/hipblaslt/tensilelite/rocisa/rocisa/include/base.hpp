@@ -119,39 +119,44 @@ namespace rocisa
 
         KernelInfo getKernel()
         {
-            return m_threads[std::this_thread::get_id()];
+            return m_threads.at(std::this_thread::get_id());
+        }
+
+        bool hasKernel()
+        {
+            return m_threads.find(std::this_thread::get_id()) != m_threads.end();
         }
 
         IsaInfo getIsaInfo(const nb::tuple& arch)
         {
             IsaVersion isaVersion
                 = {nb::cast<int>(arch[0]), nb::cast<int>(arch[1]), nb::cast<int>(arch[2])};
-            return m_isainfo[isaVersion];
+            return m_isainfo.at(isaVersion);
         }
 
         IsaInfo getIsaInfo(const IsaVersion& isaVersion)
         {
-            return m_isainfo[isaVersion];
+            return m_isainfo.at(isaVersion);
         }
 
         std::map<std::string, int> getAsmCaps()
         {
-            return m_isainfo[m_threads[std::this_thread::get_id()].isaVersion].asm_caps;
+            return m_isainfo.at(m_threads.at(std::this_thread::get_id()).isaVersion).asm_caps;
         }
 
         std::map<std::string, int> getRegCaps()
         {
-            return m_isainfo[m_threads[std::this_thread::get_id()].isaVersion].reg_caps;
+            return m_isainfo.at(m_threads.at(std::this_thread::get_id()).isaVersion).reg_caps;
         }
 
         std::map<std::string, int> getArchCaps()
         {
-            return m_isainfo[m_threads[std::this_thread::get_id()].isaVersion].arch_caps;
+            return m_isainfo.at(m_threads.at(std::this_thread::get_id()).isaVersion).arch_caps;
         }
 
         std::map<std::string, bool> getAsmBugs()
         {
-            return m_isainfo[m_threads[std::this_thread::get_id()].isaVersion].asm_bugs;
+            return m_isainfo.at(m_threads.at(std::this_thread::get_id()).isaVersion).asm_bugs;
         }
 
         std::map<IsaVersion, IsaInfo> getData() const
@@ -161,12 +166,12 @@ namespace rocisa
 
         std::map<std::string, int> getVgprIdx()
         {
-            return m_vgpridx[std::this_thread::get_id()];
+            return m_vgpridx.at(std::this_thread::get_id());
         }
 
         int getVgprMsb()
         {
-            return m_vgprmsb[std::this_thread::get_id()];
+            return m_vgprmsb.at(std::this_thread::get_id());
         }
 
         void setData(const std::map<IsaVersion, IsaInfo>& data)

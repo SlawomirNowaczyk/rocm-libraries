@@ -1368,7 +1368,7 @@ namespace rocisa
         SBarrier(const std::string& comment = "")
             : Instruction(InstType::INST_NOTYPE, comment)
         {
-            if(getAsmCaps()["HasNewBarrier"])
+            if(rocIsa::getInstance().hasKernel() && getAsmCaps()["HasNewBarrier"])
             {
                 setInst("s_barrier_signal -1 \ns_barrier_wait -1");
             }
