@@ -310,6 +310,12 @@ namespace rocisa
                 if(branch.back())
                     output.push_back(cloneAndSubstitute(instruction, params));
             }
+            else if(std::dynamic_pointer_cast<TextBlock>(item)
+                    || std::dynamic_pointer_cast<Label>(item))
+            {
+                if(branch.back())
+                    output.push_back(item->clone());
+            }
             else
             {
                 assert(false && "macroToInstruction: unexpected item type in macro body");
